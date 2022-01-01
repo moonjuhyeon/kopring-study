@@ -22,14 +22,14 @@ class ExampleAcceptanceTest : AcceptanceTest() {
         val example = Example_생성_요청(Example_생성_요청값);
 
         // then
-        assertThat(example!!.`as`(ExampleResponse::class.java).name).isEqualTo("test");
+        assertThat(example.`as`(ExampleResponse::class.java).name).isEqualTo("test");
     }
 
     private fun Example_생성_요청값_생성(name: String): ExampleRequest {
         return ExampleRequest(name);
     }
 
-    private fun Example_생성_요청(params: ExampleRequest): ExtractableResponse<Response>? {
+    private fun Example_생성_요청(params: ExampleRequest): ExtractableResponse<Response> {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(params)
