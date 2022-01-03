@@ -16,7 +16,6 @@ class Example private constructor(
 
     private val name: String = _name;
 
-
     fun getName(): String {
         return this.name;
     }
