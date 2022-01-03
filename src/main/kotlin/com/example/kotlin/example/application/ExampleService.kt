@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class ExampleService(
-        val exampleRepository: ExampleRepository
+    val exampleRepository: ExampleRepository
 ) {
     fun save(exampleRequest: ExampleRequest): ExampleResponse {
         return ExampleResponse(exampleRepository.save(exampleRequest.toEntity()));
     }
 
-
+    fun findByAll(): List<ExampleResponse> {
+        return ExampleResponse.ofList(exampleRepository.findAll());
+    }
 }

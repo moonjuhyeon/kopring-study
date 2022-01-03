@@ -1,18 +1,16 @@
 package com.example.kotlin.example
 
 import com.example.kotlin.AcceptanceTest
-import com.example.kotlin.example.ui.ExampleRequest
-import com.example.kotlin.example.ui.ExampleResponse
-import io.restassured.RestAssured
-import io.restassured.response.ExtractableResponse
-import io.restassured.response.Response
-import org.assertj.core.api.Assertions.assertThat
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_목록_조회_요청
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_목록_조회됨
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_생성_요청
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_생성_요청값_생성
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_생성되어_있음
+import com.example.kotlin.example.ExampleAcceptanceStaticTest.Example_생성됨
 import org.junit.jupiter.api.Test
-import org.springframework.http.MediaType
 
 class ExampleAcceptanceTest : AcceptanceTest() {
-
-
+    
     @Test
     fun createExampleTest() {
         // given
@@ -22,20 +20,19 @@ class ExampleAcceptanceTest : AcceptanceTest() {
         val example = Example_생성_요청(Example_생성_요청값);
 
         // then
-        assertThat(example.`as`(ExampleResponse::class.java).name).isEqualTo("test");
+        Example_생성됨(example);
     }
 
-    private fun Example_생성_요청값_생성(name: String): ExampleRequest {
-        return ExampleRequest(name);
-    }
+    @Test
+    fun findByAllTest() {
+        // given
+        Example_생성되어_있음(Example_생성_요청값_생성("test1"));
+        Example_생성되어_있음(Example_생성_요청값_생성("test2"));
 
-    private fun Example_생성_요청(params: ExampleRequest): ExtractableResponse<Response> {
-        return RestAssured.given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(params)
-                .`when`()
-                .post("/examples")
-                .then().log().all()
-                .extract();
+        // when
+        val response = Example_목록_조회_요청();
+
+        // then
+        Example_목록_조회됨(response);
     }
 }
